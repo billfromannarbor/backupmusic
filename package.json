@@ -1,0 +1,23 @@
+{
+  "name": "backupmusic",
+  "version": "1.0.0",
+  "description": "backup music files",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/billfromannarbor/backupmusic.git"
+  },
+  "keywords": [
+    "music",
+    "backup"
+  ],
+  "author": "billfromannarbor",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/billfromannarbor/backupmusic/issues"
+  },
+  "homepage": "https://github.com/billfromannarbor/backupmusic#readme"
+}
