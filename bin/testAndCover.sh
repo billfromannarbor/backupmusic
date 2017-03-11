@@ -1,5 +1,3 @@
-source bin/env.sh
-
 #Runs Mocha tests and instanbul code coverage
 istanbul cover _mocha $serverSideUnitTestPath
 
