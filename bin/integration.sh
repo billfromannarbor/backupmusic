@@ -1,9 +1,11 @@
 source bin/cleanup.sh
 source bin/testAndCover.sh
 source bin/docGenerate.sh
-rm ./backupofmymusic
+rm -r ./backupofmymusic
 bin/backupMusic.sh ./mymusic ./backupofmymusic
-rm ./backupofmymusic
+bin/backupMusic.sh ./mymusic ./backupofmymusic
+rm -r ./backupofmymusic/child1
+bin/backupMusic.sh ./mymusic ./backupofmymusic
 
 
 
