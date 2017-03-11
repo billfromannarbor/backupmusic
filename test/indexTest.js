@@ -37,6 +37,7 @@ describe("copydirectory", function () {
 
 
       makeDirectory("TestDirectory")
+      .then(copyDirectory)
       .then(function(){
       	done()	
       })
