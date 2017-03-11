@@ -11,8 +11,8 @@ bin/testAndCover.sh # just test and create a coverage report
 #Supporting libraries
 ```bash
 #Install globally for the user - remove the -g if you want to install these locally
-npm install mocha -g
-npm install jsdoc -g
+npm install -g mocha
+npm install -g jsdoc
 npm install -g istanbul
 npm install -g js-beautify
 npm install -g jscs
