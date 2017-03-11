@@ -15,13 +15,18 @@ const fs = require("fs")
 describe("copydirectory", function () {
   it("Make a directory, copy it, validate, and remove the original and copied directories",
     function (done) {
-      function copyDirectory(directory) {
+
+      function copyDirectory(sourceDirectory, destinationDirectory, filter) {
         return new Promise(function (resolve, reject) {
-          resolve(directory)
+          resolve(sourceDirectory)
         })
       }
 
-      function validateDirectory(directory) {}
+      function copyFile(sourcePath, destinationPath) {
+        return new Promise(function (resolve, reject) {
+          resolve(sourcePath)
+        })
+      }
 
       function makeDirectory(directory) {
         return new Promise(function (resolve, reject) {
@@ -48,6 +53,12 @@ describe("copydirectory", function () {
               resolve(directory)
             }
           })
+        })
+      }
+
+      function removeTestDirectories(sourceDirectory, destinationDirectory) {
+        return new Promise(function (resolve, reject) {
+          resolve(directory)
         })
       }
 
