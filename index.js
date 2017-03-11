@@ -2,50 +2,75 @@
 
 const fs = require("fs")
 
-var sourceDirectory = process.argv[2]
-var destinationDirectory = process.argv[3]
+var api = {}
+exports.api = api
 
-var backupConfig = {}
-backupConfig.sourceDirectory = sourceDirectory
-backupConfig.destinationDirectory = destinationDirectory
-backupConfig.filter = [".mp3", ".m4u"]
+function main() {
+  var sourceDirectory = process.argv[2]
+  var destinationDirectory = process.argv[3]
+  var backupConfig = {}
+  if (sourceDirectory && destinationDirectory) {
 
-exports.backupDirectory = function backupDirectory(backupConfig) {
+    backupConfig.sourceDirectory = sourceDirectory
+    backupConfig.destinationDirectory = destinationDirectory
+    backupConfig.filter = [".mp3", ".m4u"]
+
+    api.backupDirectory(backupConfig)
+      .then(function (backupConfig) {
+        console.log("Completed Backup of " + " 0 files " + "using config: " + backupConfig.sourceDirectory)
+      })
+      .catch(function (err) {
+        console.log("Why: " + err + " using config: " + backupConfig.sourceDirectory)
+      })
+  }
+}
+
+main()
+
+
+api.backupDirectory = function backupDirectory(backupConfig) {
   return new Promise(function (resolve, reject) {
-    makeDirectory(backupconfig.destinationDirectory)
-      .then(function () {})
+    api.makeDirectory(backupConfig.destinationDirectory)
       .then(function () {
         resolve()
+      })
+      .catch(function (err) {
+        reject(err)
       })
   })
 }
 
-exports.copyDirectory = function copyDirectory(backupConfig) {
+api.copyDirectory = function copyDirectory(backupConfig) {
   return new Promise(function (resolve, reject) {
     resolve(backupConfig)
 
   })
 }
 
-exports.copyFile = function copyFile(sourcePath, destinationPath) {
+api.copyFile = function copyFile(sourcePath, destinationPath) {
   return new Promise(function (resolve, reject) {
     resolve()
   })
 }
 
-exports.makeDirectory = function makeDirectory(backupConfig) {
+api.makeDirectory = function makeDirectory(directory) {
   return new Promise(function (resolve, reject) {
-    fs.mkdir(backupConfig.sourceDirectory, function (err) {
+    console.log("Make directory: " + directory)
+    fs.mkdir(directory, function (err) {
       if (err) {
-        reject(err)
+        if (err.code == "EEXIST") {
+          resolve(directory)
+        } else {
+          reject(err)
+        }
       } else {
-        resolve(backupConfig)
+        resolve(directory)
       }
     })
   })
 }
 
-exports.removeDirectory = function removeDirectory(backupConfig) {
+api.removeDirectory = function removeDirectory(backupConfig) {
   return new Promise(function (resolve, reject) {
     fs.rmdir(backupConfig.sourceDirectory, function (err) {
       if (err) {
@@ -60,11 +85,3 @@ exports.removeDirectory = function removeDirectory(backupConfig) {
     })
   })
 }
-
-exports.backupDirectory(backupConfig)
-  .then(function (backupConfig) {
-    console.log("Completed Backup of " + " 0 files " + "using config: " + backupConfig)
-  })
-  .catch(function (err) {
-    console.log("Error: " + err + "using config: " + backupConfig)
-  })
