@@ -10,6 +10,7 @@ api.copyDirectory = copyDirectory
 api.copyFile = copyFile
 api.makeDirectory = makeDirectory
 api.removeDirectory = removeDirectory
+api.getDirectoryTree = getDirectoryTree
 exports.api = api
 
 
@@ -17,6 +18,7 @@ function main() {
   var sourceDirectory = process.argv[2]
   var destinationDirectory = process.argv[3]
   var backupConfig = {}
+  var message
   if (sourceDirectory && destinationDirectory) {
 
     backupConfig.sourceDirectory = sourceDirectory
@@ -25,10 +27,13 @@ function main() {
 
     api.backupDirectory(backupConfig)
       .then(function (backupConfig) {
-        console.log("Completed Backup of " + " 0 files " + "using config: " + backupConfig.sourceDirectory)
+        message = "Completed Backup of " + "0" + " files "
+        message += " from " + backupConfig.sourceDirectory
+        message += " to " + backupConfig.destinationDirectory
+        console.log(message)
       })
       .catch(function (err) {
-        console.log("Error: " + err + " using config: " + backupConfig.sourceDirectory)
+        console.log("Error: " + err + " using config: " + JSON.stringify(backupConfig.sourceDirectory))
       })
   }
 }
@@ -38,13 +43,28 @@ main()
 
 function backupDirectory(backupConfig) {
   return new Promise(function (resolve, reject) {
-    api.makeDirectory(backupConfig.destinationDirectory)
-      .then(function () {
-        resolve()
+    Promise.all([api.getDirectoryTree(backupConfig.sourceDirectory), api.getDirectoryTree(backupConfig.destinationDirectory)])
+      .then(function (directoryTree) {
+        console.log("Directory Tree: " + JSON.stringify(directoryTree))
+        resolve(backupConfig)
       })
-      .catch(function (err) {
-        reject(err)
-      })
+
+  })
+}
+
+function getDirectoryTree(directory) {
+  return new Promise(function (resolve, reject) {
+    var directoryTree = {}
+
+    resolve(directoryTree)
+
+  })
+}
+
+function copyBackupDirectory(backupConfig) {
+  return new Promise(function (resolve, reject) {
+    resolve(backupConfig)
+
   })
 }
 
