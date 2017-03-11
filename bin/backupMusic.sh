@@ -1,1 +1,1 @@
-node index.js $1 $2
+node --harmony index.js $1 $2
