@@ -16,33 +16,57 @@ describe("copydirectory", function () {
   it("Make a directory, copy it, validate, and remove the original and copied directories",
     function (done) {
       function copyDirectory(directory) {
-          return new Promise(function (resolve, reject) {
-          	resolve(directory)
-          })
+        return new Promise(function (resolve, reject) {
+          resolve(directory)
+        })
       }
-			
+
       function validateDirectory(directory) {}
 
       function makeDirectory(directory) {
         return new Promise(function (resolve, reject) {
-			fs.mkdir(directory, function (err) {
-			  if (err) {
-				reject(err)
-			  } else {
-				resolve(directory)
-			  }
-			})
+          fs.mkdir(directory, function (err) {
+            if (err) {
+              reject(err)
+            } else {
+              resolve(directory)
+            }
           })
+        })
       }
 
+      function removeDirectory(directory) {
+        return new Promise(function (resolve, reject) {
+          fs.rmdir(directory, function (err) {
+            if (err) {
+              if (err.code == "ENOENT") {
+                resolve(directory)
+              } else {
+                reject(err)
+              }
+            } else {
+              resolve(directory)
+            }
+          })
+        })
+      }
 
-      makeDirectory("TestDirectory")
-      .then(copyDirectory)
-      .then(function(){
-      	done()	
-      })
-      .catch(function(err) {
-      	done(err)
-      })
+      function validateDirectory(directory) {
+        return new Promise(function (resolve, reject) {
+          resolve(directory)
+        })
+      }
+
+      removeDirectory("TestDirectory")
+        .then(makeDirectory)
+        .then(copyDirectory)
+        .then(validateDirectory)
+        .then(removeDirectory)
+        .then(function () {
+          done()
+        })
+        .catch(function (err) {
+          done(err)
+        })
     })
 })
