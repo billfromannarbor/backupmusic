@@ -10,13 +10,13 @@
 const assert = require("assert")
 const util = require("util")
 const index = require("../index.js")
-const fs = require("fs");
+const fs = require("fs")
 
 describe("copydirectory", function () {
   it("Make a directory, copy it, validate, and remove the original and copied directories",
     function (done) {
       function copyDirectory(directory) {
-        console.log(directory);
+        console.log(directory)
       }
 
       function validateDirectory(directory) {}
