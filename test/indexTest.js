@@ -1,11 +1,11 @@
 "use strict"
 
 /**
- * @name lambdaHelpersTest
- * @copyright 2015-2016 otherkitten.com, Inc. or its affiliates.All Rights Reserved.
- * @license This software cannot be used or duplicated without strict compliance to the software license agreement.  See https://license.otherkitten.com
+ * @name indexTest
+ * @copyright 2017 otherkitten.com, Inc. or its affiliates.All Rights Reserved.
+ * @license Apache-2
  * @author Bill Heitzeg
- * @Validate the results
+ * @All the tests for backupmusic
  **/
 const assert = require("assert")
 const util = require("util")
