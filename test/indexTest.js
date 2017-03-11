@@ -15,60 +15,77 @@ const fs = require("fs")
 describe("copydirectory", function () {
   it("Make a directory, copy it, validate, and remove the original and copied directories",
     function (done) {
+      var testBackupConfig = {}
 
-      function copyDirectory(sourceDirectory, destinationDirectory, filter) {
+      function backupDirectory(backupConfig) {
         return new Promise(function (resolve, reject) {
-          resolve(sourceDirectory)
+          makeDirectory(backupconfig.destinationDirectory)
+            .then(function () {})
+            .then(function () {
+              resolve()
+            })
+
+        })
+      }
+
+      function copyDirectory(backupConfig) {
+        return new Promise(function (resolve, reject) {
+          resolve(backupConfig)
+
         })
       }
 
       function copyFile(sourcePath, destinationPath) {
         return new Promise(function (resolve, reject) {
-          resolve(sourcePath)
+          resolve()
         })
       }
 
-      function makeDirectory(directory) {
+      function makeDirectory(backupConfig) {
         return new Promise(function (resolve, reject) {
-          fs.mkdir(directory, function (err) {
+          fs.mkdir(backupConfig.sourceDirectory, function (err) {
             if (err) {
               reject(err)
             } else {
-              resolve(directory)
+              resolve(backupConfig)
             }
           })
         })
       }
 
-      function removeDirectory(directory) {
+      function removeDirectory(backupConfig) {
         return new Promise(function (resolve, reject) {
-          fs.rmdir(directory, function (err) {
+          fs.rmdir(backupConfig.sourceDirectory, function (err) {
             if (err) {
               if (err.code == "ENOENT") {
-                resolve(directory)
+                resolve(backupConfig)
               } else {
                 reject(err)
               }
             } else {
-              resolve(directory)
+              resolve(backupConfig)
             }
           })
         })
       }
 
-      function removeTestDirectories(sourceDirectory, destinationDirectory) {
+      function removeTestDirectories(backupConfig) {
         return new Promise(function (resolve, reject) {
-          resolve(directory)
+          resolve(backupConfig)
         })
       }
 
-      function validateDirectory(directory) {
+      function validateDirectory(backupConfig) {
         return new Promise(function (resolve, reject) {
-          resolve(directory)
+          resolve(backupConfig)
         })
       }
 
-      removeDirectory("TestDirectory")
+      testBackupConfig.sourceDirectory = "TestSourceDirectory"
+      testBackupConfig.destinattionDirectory = "TestDestinationDirectory"
+      testBackupConfig.filter = {}
+      testBackupConfig.filter.acceptFiles = [".mp3", ".m4u"]
+      removeDirectory(testBackupConfig)
         .then(makeDirectory)
         .then(copyDirectory)
         .then(validateDirectory)
