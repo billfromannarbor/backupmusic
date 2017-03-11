@@ -13,7 +13,7 @@ npm install -g js-beautify
 npm install -g jscs
 ```
 
-#Cleanup code, Style Check, Test, Cover, and generate documents
+#Cleanup code, Style Check, Test, Cover, and Generate documents
 ```bash
 bin/integration.sh # do everything
 bin/cleanup.sh # just cleanup the code and style check it

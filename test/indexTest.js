@@ -16,19 +16,32 @@ describe("copydirectory", function () {
   it("Make a directory, copy it, validate, and remove the original and copied directories",
     function (done) {
       function copyDirectory(directory) {
-        console.log(directory)
+          return new Promise(function (resolve, reject) {
+          	resolve(directory)
+          })
       }
-
+			
       function validateDirectory(directory) {}
 
-      function makedirectory(directory) {
-        fs.mkdir(directory, function (err) {
-          copyDirectory(directory)
-          done()
-        })
+      function makeDirectory(directory) {
+        return new Promise(function (resolve, reject) {
+			fs.mkdir(directory, function (err) {
+			  if (err) {
+				reject(err)
+			  } else {
+				resolve(directory)
+			  }
+			})
+          })
       }
 
 
-      makedirectory("TestDirectory")
+      makeDirectory("TestDirectory")
+      .then(function(){
+      	done()	
+      })
+      .catch(function(err) {
+      	done(err)
+      })
     })
 })
