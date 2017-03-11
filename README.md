@@ -23,7 +23,7 @@ bin/testAndCover.sh # just test and create a coverage report
 
 #Run the application
 ```bash
-bin/backup.sh ./mymusic ./backupofmymusic
-```bash
+bin/backupMusic.sh ./mymusic ./backupofmymusic
+```
 
 
