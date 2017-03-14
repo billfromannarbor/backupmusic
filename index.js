@@ -44,11 +44,6 @@ function main() {
 main()
 
 
-function getDirectoryTree(directory) {
-  resolve({})
-
-}
-
 function backupDirectory(backupConfig) {
   return new Promise(function (resolve, reject) {
     Promise.all([api.getDirectoryTree(backupConfig.sourceDirectory), api.getDirectoryTree(backupConfig.destinationDirectory)])
@@ -60,12 +55,21 @@ function backupDirectory(backupConfig) {
   })
 }
 
+function getSourceDirectoryTreeUsingBackupConfig(backupConfig) {
+  getDirectoryTree(backupConfig.sourceDirectory)
+}
+
 function getDirectoryTree(directory) {
   return new Promise(function (resolve, reject) {
     var directoryTree = {}
-
-    resolve(directoryTree)
-
+    fs.stat(directory, function (err, stats) {
+      if (err) {
+        reject(err)
+      } else {
+        console.log("These are the stats: " + stats)
+        resolve(directoryTree)
+      }
+    })
   })
 }
 

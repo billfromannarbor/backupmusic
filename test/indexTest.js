@@ -34,8 +34,6 @@ function removeTestArtifacts(backupConfig) {
   })
 }
 
-
-
 describe("Make a directory, copy it, validate, and remove the original and copied directories", function () {
   it("Does it all right now",
     function (done) {
@@ -54,7 +52,7 @@ describe("Make a directory, copy it, validate, and remove the original and copie
   it("retrieves a directory/file tree", function testRetrieveDirectoryTree(done) {
     //make a directory
     createInitialSetup(testBackupConfig)
-      .then(index.getDirectoryTree)
+      .then(index.getDirectoryTreeWithBackupConfig)
       .then(function validate(directoryTree) {
         return new Promise(function (resolve, reject) {
           console.log(directoryTree)
