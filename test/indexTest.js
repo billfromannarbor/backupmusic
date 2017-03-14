@@ -10,34 +10,35 @@
 const assert = require("assert")
 const index = require("../index.js").api
 const fs = require("fs")
+var testBackupConfig = {}
+testBackupConfig.sourceDirectory = "TestSourceDirectory"
+testBackupConfig.destinationDirectory = "TestDestinationDirectory"
+testBackupConfig.filter = {}
+testBackupConfig.filter.acceptFiles = [".mp3", ".m4u"]
+
+function createInitialSetup(backupConfig) {
+  return new Promise(function (resolve, reject) {
+    resolve(backupConfig)
+  })
+}
+
+function validateBackup(backupConfig) {
+  return new Promise(function (resolve, reject) {
+    resolve(backupConfig)
+  })
+}
+
+function removeTestArtifacts(backupConfig) {
+  return new Promise(function (resolve, reject) {
+    resolve(backupConfig)
+  })
+}
+
+
 
 describe("Make a directory, copy it, validate, and remove the original and copied directories", function () {
   it("Does it all right now",
     function (done) {
-      var testBackupConfig = {}
-
-      function createInitialSetup(backupConfig) {
-        return new Promise(function (resolve, reject) {
-          resolve(backupConfig)
-        })
-      }
-
-      function validateBackup(backupConfig) {
-        return new Promise(function (resolve, reject) {
-          resolve(backupConfig)
-        })
-      }
-
-      function removeTestArtifacts(backupConfig) {
-        return new Promise(function (resolve, reject) {
-          resolve(backupConfig)
-        })
-      }
-
-      testBackupConfig.sourceDirectory = "TestSourceDirectory"
-      testBackupConfig.destinationDirectory = "TestDestinationDirectory"
-      testBackupConfig.filter = {}
-      testBackupConfig.filter.acceptFiles = [".mp3", ".m4u"]
       createInitialSetup(testBackupConfig)
         .then(index.backupDirectory)
         .then(validateBackup)
@@ -49,4 +50,26 @@ describe("Make a directory, copy it, validate, and remove the original and copie
           done(err)
         })
     })
+
+  it("retrieves a directory/file tree", function testRetrieveDirectoryTree(done) {
+    //make a directory
+    createInitialSetup(testBackupConfig)
+      .then(index.getDirectoryTree)
+      .then(function validate(directoryTree) {
+        return new Promise(function (resolve, reject) {
+          console.log(directoryTree)
+          resolve(testBackupConfig)
+        })
+      })
+      .then(removeTestArtifacts)
+      .then(function () {
+        done()
+      })
+      .catch(function (err) {
+        done(err)
+      })
+
+
+  })
+
 })

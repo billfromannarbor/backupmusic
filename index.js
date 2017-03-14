@@ -11,6 +11,7 @@ api.copyFile = copyFile
 api.makeDirectory = makeDirectory
 api.removeDirectory = removeDirectory
 api.getDirectoryTree = getDirectoryTree
+api.getDirectoryTree = getDirectoryTree
 exports.api = api
 
 
@@ -35,11 +36,18 @@ function main() {
       .catch(function (err) {
         console.log("Error: " + err + " using config: " + JSON.stringify(backupConfig.sourceDirectory))
       })
+  } else {
+    console.log("Usage: node index.js ./mymusic ./backupofmymusic")
   }
 }
 
 main()
 
+
+function getDirectoryTree(directory) {
+  resolve({})
+
+}
 
 function backupDirectory(backupConfig) {
   return new Promise(function (resolve, reject) {
