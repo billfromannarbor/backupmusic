@@ -34,7 +34,7 @@ function removeTestArtifacts(backupConfig) {
   })
 }
 
-describe("Make a directory, copy it, validate, and remove the original and copied directories", function () {
+it.skip("Make a directory, copy it, validate, and remove the original and copied directories", function () {
   it("Does it all right now",
     function (done) {
       createInitialSetup(testBackupConfig)
@@ -48,26 +48,31 @@ describe("Make a directory, copy it, validate, and remove the original and copie
           done(err)
         })
     })
+})
 
-  it("retrieves a directory/file tree", function testRetrieveDirectoryTree(done) {
-    //make a directory
-    createInitialSetup(testBackupConfig)
-      .then(index.getDirectoryTreeWithBackupConfig)
-      .then(function validate(directoryTree) {
-        return new Promise(function (resolve, reject) {
-          console.log(directoryTree)
-          resolve(testBackupConfig)
-        })
+it.skip("retrieves a directory/file tree", function testRetrieveDirectoryTree(done) {
+  //make a directory
+  //     const dirs = p => fs.readdirSync(p).filter(f => fs.statSync(p + "/" + f).isDirectory())
+  //     const files = p => fs.readdirSync(p).filter(f => fs.statSync(p + "/" + f).isDirectory()).readdirSync().isFile()
+  //     console.log("directories: " + dirs("."))
+  //     console.log("directories: " + files("."))
+  createInitialSetup(testBackupConfig)
+    .then(index.getDirectoryTreeWithBackupConfig)
+    .then(function validate(directoryTree) {
+      return new Promise(function (resolve, reject) {
+        console.log(directoryTree)
+        resolve(testBackupConfig)
       })
-      .then(removeTestArtifacts)
-      .then(function () {
-        done()
-      })
-      .catch(function (err) {
-        done(err)
-      })
+    })
+    .then(removeTestArtifacts)
+    .then(function () {
+      done()
+    })
+    .catch(function (err) {
+      done(err)
+    })
+})
 
-
-  })
+it("OKfs.stat - Retrieve information about a file in json format", function testStat() {
 
 })

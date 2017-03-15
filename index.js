@@ -66,6 +66,13 @@ function getDirectoryTree(directory) {
       if (err) {
         reject(err)
       } else {
+        if (stats.isDirectory()) {
+          directoryTree.directory = ""
+          //get directory list
+        } else if (stat.isFile()) {
+          directoryTree.file = ""
+
+        }
         console.log("These are the stats: " + stats)
         resolve(directoryTree)
       }
