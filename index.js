@@ -3,6 +3,9 @@
 const fs = require("fs")
 
 var api = {}
+var okfs = {}
+
+//setup api
 api.backupDirectory = backupDirectory
 api.copyDirectory = copyDirectory
 api.copyBackupDirectory = copyBackupDirectory
@@ -14,6 +17,9 @@ api.getDirectoryTree = getDirectoryTree
 api.getDirectoryTree = getDirectoryTree
 exports.api = api
 
+//setup okfs
+okfs.stat = stat
+exports.okfs = okfs
 
 function main() {
   var sourceDirectory = process.argv[2]
@@ -43,6 +49,20 @@ function main() {
 
 main()
 
+
+function stat(directory) {
+  return new Promise(function (resolve, reject) {
+    var directoryTree = {}
+    fs.stat(directory, function (err, stats) {
+      if (err) {
+        console.log("fuck you")
+        reject(err)
+      } else {
+        resolve(stats)
+      }
+    })
+  })
+}
 
 function backupDirectory(backupConfig) {
   return new Promise(function (resolve, reject) {

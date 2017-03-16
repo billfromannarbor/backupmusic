@@ -9,6 +9,7 @@
  **/
 const assert = require("assert")
 const index = require("../index.js").api
+const okfs = require("../index.js").okfs
 const fs = require("fs")
 var testBackupConfig = {}
 testBackupConfig.sourceDirectory = "TestSourceDirectory"
@@ -33,6 +34,11 @@ function removeTestArtifacts(backupConfig) {
     resolve(backupConfig)
   })
 }
+
+
+it("Creates and removes a test directory", function (done) {
+  done()
+})
 
 it.skip("Make a directory, copy it, validate, and remove the original and copied directories", function () {
   it("Does it all right now",
@@ -73,6 +79,25 @@ it.skip("retrieves a directory/file tree", function testRetrieveDirectoryTree(do
     })
 })
 
-it("OKfs.stat - Retrieve information about a file in json format", function testStat() {
+it.skip("OKfs.stat - Retrieve information about a file in json format", function testStat(done) {
+  createInitialSetup(testBackupConfig)
+    .then(function statSourceDirectory(backupConfig) {
+      return new Promise(function (resolve, reject) {
+        okfs.stat(backupConfig.sourceDirectory)
+          .then(function returnBackupConfig(stat) {
+            resolve(backupConfig)
+          })
+          .catch(function (err) {
+            console.log("Really more fuck you stuff")
+            reject(err)
+          })
+      })
+    })
+    .then(function validateStat(fsstats) {
+      done()
+    })
+    .catch(function (err) {
+      done(err)
+    })
 
 })
