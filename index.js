@@ -22,6 +22,8 @@ exports.api = api
 
 //setup okfs
 okfs.stat = stat
+okfs.mkdir = mkdir
+okfs.copyFile = copyFile
 exports.okfs = okfs
 
 function stat(directory) {
@@ -36,6 +38,33 @@ function stat(directory) {
         resolve(stats)
       }
     })
+  })
+}
+
+function mkdir(directory) {
+  return new Promise(function (resolve, reject) {
+    fs.mkdir(directory, function (err) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(directory)
+      }
+    })
+  })
+}
+
+function copyFile(sourcePath, destinationPath) {
+  return new Promise(function (resolve, reject) {
+    const writer = fs.createWriteStream(destinationPath)
+    const reader = fs.createReadStream(sourcePath)
+    writer.on('pipe', (src) => {
+      console.error('something is piping into the writer')
+      if (src != reader) {
+        reject(new Error("Source does not equal reader"))
+      }
+    })
+    reader.pipe(writer)
+    resolve(sourcePath, destinationPath)
   })
 }
 
@@ -130,30 +159,6 @@ function copyDirectory(sourcePath, destinationPath) {
         copyFileList(sourcePath, destinationPath)
       })
       .then(resolve(backupConfig))
-  })
-}
-
-function copyFile(sourcePath, destinationPath) {
-  return new Promise(function (resolve, reject) {
-    fs.createReadStream(sourcePath).pipe(fs.createWriteStream(destinationPath))
-    resolve()
-  })
-}
-
-function makeDirectory(directory) {
-  return new Promise(function (resolve, reject) {
-    console.log("Make directory: " + directory)
-    fs.mkdir(directory, function (err) {
-      if (err) {
-        if (err.code == "EEXIST") {
-          resolve(directory)
-        } else {
-          reject(err)
-        }
-      } else {
-        resolve(directory)
-      }
-    })
   })
 }
 

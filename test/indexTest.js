@@ -17,29 +17,62 @@ testBackupConfig.destinationDirectory = "TestDestinationDirectory"
 testBackupConfig.filter = {}
 testBackupConfig.filter.acceptFiles = [".mp3", ".m4u"]
 
-function createInitialSetup(backupConfig) {
-  return new Promise(function (resolve, reject) {
-    resolve(backupConfig)
-  })
-}
 
-function validateBackup(backupConfig) {
-  return new Promise(function (resolve, reject) {
-    console.log("validateBackup" + backupConfig)
-    resolve(backupConfig)
-  })
-}
+it("okfs.copyFile - Copy a file", function (done) {
+  okfs.copyFile("./mymusic/child1/nothing.txt", "nothing.txt")
+    .then(function (sourceDirectory, destinationDirectory) {
+      done()
+    })
+    .catch(function (err) {
+      done(err)
+    })
+})
 
-function removeTestArtifacts(backupConfig) {
-  return new Promise(function (resolve, reject) {
-    console.log("removeTestArtifacts: " + backupConfig)
-    resolve(backupConfig)
-  })
-}
+it("okfs.md - Fails with empty directory variable", function (done) {
+  okfs.mkdir()
+    .then(function (dir) {
+      done(new Error("Should fail with empty directory variable"))
+    })
+    .catch(function (err) {
+      done()
+    })
+
+})
+
+it("okfs.md - Fails to make a directory that already exists", function (done) {
+  okfs.mkdir("./mymusic")
+    .then(function (dir) {
+      done(new Error("Directory : " + dir + " Should exist"))
+    })
+    .catch(function (err) {
+      done()
+    })
+
+})
+
+it("okfs.md - Make a new directory that doesn't exit", function (done) {
+  okfs.mkdir("nonexistentDirectorymkdir")
+    .then(function (dir) {
+      done()
+    })
+    .catch(function (err) {
+      done(err)
+    })
+})
+
+it("okfs.md - Fail to make a directory that does exist", function (done) {
+  done()
+})
+
+
+it("okfs.md - Fail when an empty directory variable is passed in", function (done) {
+  done()
+})
+
 
 
 it("okfs.stat - Gets Info from a non-existent directory", function (done) {
-  okfs.stat("nonexistentDirectory")
+  okfs.stat("nonexistentDirectorystat")
     .then(function (stats) {
       done(new Error("Directory Should not exist"))
     })
