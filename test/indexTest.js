@@ -58,6 +58,17 @@ it("okfs.stat - Gets Info from an existing directory", function (done) {
     })
 })
 
+it("okfs.stat - Gets Info from an empty passed in directory", function (done) {
+  okfs.stat()
+    .then(function (stats) {
+      done(new Error("Function should fail"))
+    })
+    .catch(function (err) {
+      done()
+
+    })
+})
+
 it.skip("Sets up and tears down the environment", function (done) {
   createInitialSetup(testBackupConfig)
     .then(function validateThatArtifactsWereCreated(backupConfig) {
