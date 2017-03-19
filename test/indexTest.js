@@ -48,6 +48,16 @@ it("okfs.stat - Gets Info from a non-existent directory", function (done) {
     })
 })
 
+it("okfs.stat - Gets Info from an existing directory", function (done) {
+  okfs.stat("./mymusic")
+    .then(function (stats) {
+      done()
+    })
+    .catch(function (err) {
+      done(new Error("Directory Should exist"))
+    })
+})
+
 it.skip("Sets up and tears down the environment", function (done) {
   createInitialSetup(testBackupConfig)
     .then(function validateThatArtifactsWereCreated(backupConfig) {
