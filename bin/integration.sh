@@ -4,7 +4,6 @@ source bin/docGenerate.sh
 
 #Remove the test DirectoryService
 rm -r nonexistentDirectorymkdir
-rm -r nonexistentDirectorystat
 rm nothing.txt
 #rm -r ./backupofmymusic
 #sh bin/backupMusic.sh ./mymusic ./backupofmymusic
