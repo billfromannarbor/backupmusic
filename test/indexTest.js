@@ -25,19 +25,68 @@ function createInitialSetup(backupConfig) {
 
 function validateBackup(backupConfig) {
   return new Promise(function (resolve, reject) {
+    console.log("validateBackup" + backupConfig)
     resolve(backupConfig)
   })
 }
 
 function removeTestArtifacts(backupConfig) {
   return new Promise(function (resolve, reject) {
+    console.log("removeTestArtifacts: " + backupConfig)
     resolve(backupConfig)
   })
 }
 
 
-it("Creates and removes a test directory", function (done) {
-  done()
+it("okfs.stat - Gets Info from a non-existent directory", function (done) {
+  okfs.stat("nonexistentDirectory")
+    .then(function (stats) {
+      done(new Error("Directory Should not exist"))
+    })
+    .catch(function (err) {
+      done()
+    })
+})
+
+it.skip("Sets up and tears down the environment", function (done) {
+  createInitialSetup(testBackupConfig)
+    .then(function validateThatArtifactsWereCreated(backupConfig) {
+      okfs.stat(testBackupConfig.sourceDirectory)
+        .then(function checkIfSourceDirectoryExists(stats) {
+          return new Promise(function (resolve, reject) {
+            if (stats.isDirectory()) {
+              console.log("stats: " + testBackupConfig)
+              resolve(testBackupConfig)
+            } else {
+              //reject(new Error(testBackupConfig.sourceDirectory + " is not a directory"))
+              console.log("Cool")
+              resolve(testBackupConfig)
+            }
+          })
+        })
+        .catch(function (err) {
+          reject(err)
+        })
+    })
+    .then(removeTestArtifacts)
+    //     .then(function validateThatArtifactsWereRemoved(backupConfig) {
+    //       okfs.stat(backupConfig.sourceDirectory)
+    //         .then(function checkIfSourceDirectoryExists(stats) {
+    //           return new Promise(function (resolve, reject) {
+    //             if (stats.isDirectory()) {
+    //               reject(new Error(testBackupConfig.sourceDirectory + " is not a directory"))
+    //             } else {
+    //               resolve(testBackupConfig)
+    //             }
+    //           })
+    //         })
+    //     })
+    .then(function finished() {
+      done()
+    })
+    .catch(function (err) {
+      done(err)
+    })
 })
 
 it.skip("Make a directory, copy it, validate, and remove the original and copied directories", function () {

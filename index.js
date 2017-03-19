@@ -2,10 +2,11 @@
 
 const fs = require("fs")
 
-var api = {}
 var okfs = {}
 
 //setup api
+/*
+var api = {}
 api.backupDirectory = backupDirectory
 api.copyDirectory = copyDirectory
 api.copyBackupDirectory = copyBackupDirectory
@@ -16,11 +17,29 @@ api.removeDirectory = removeDirectory
 api.getDirectoryTree = getDirectoryTree
 api.getDirectoryTree = getDirectoryTree
 exports.api = api
+*/
+
 
 //setup okfs
 okfs.stat = stat
 exports.okfs = okfs
 
+function stat(directory) {
+  return new Promise(function (resolve, reject) {
+    if (!directory) {
+      reject("Directory undefined")
+    }
+    fs.stat(directory, function (err, stats) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(stats)
+      }
+    })
+  })
+}
+
+/*
 function main() {
   var sourceDirectory = process.argv[2]
   var destinationDirectory = process.argv[3]
@@ -48,22 +67,12 @@ function main() {
 }
 
 main()
+*/
 
 
-function stat(directory) {
-  return new Promise(function (resolve, reject) {
-    var directoryTree = {}
-    fs.stat(directory, function (err, stats) {
-      if (err) {
-        console.log("fuck you")
-        reject(err)
-      } else {
-        resolve(stats)
-      }
-    })
-  })
-}
 
+
+/*
 function backupDirectory(backupConfig) {
   return new Promise(function (resolve, reject) {
     Promise.all([api.getDirectoryTree(backupConfig.sourceDirectory), api.getDirectoryTree(backupConfig.destinationDirectory)])
@@ -163,3 +172,4 @@ function removeDirectory(backupConfig) {
     })
   })
 }
+*/
