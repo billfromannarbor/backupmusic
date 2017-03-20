@@ -41,6 +41,21 @@ function stat(directory) {
   })
 }
 
+function backup(directory) {
+	ofks.mkdir(directory)
+	.catch(function(err) {
+      if (err) {
+        if (err.code == "ENOENT") {
+          resolve(directory)
+        } else {
+          reject(err)
+        }
+      } else {
+        resolve(directory)
+      }
+      })
+}
+
 function mkdir(directory) {
   return new Promise(function (resolve, reject) {
     fs.mkdir(directory, function (err) {
