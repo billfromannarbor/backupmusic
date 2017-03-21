@@ -42,8 +42,8 @@ function stat(directory) {
 }
 
 function backup(directory) {
-	ofks.mkdir(directory)
-	.catch(function(err) {
+  ofks.mkdir(directory)
+    .catch(function (err) {
       if (err) {
         if (err.code == "ENOENT") {
           resolve(directory)
@@ -53,7 +53,7 @@ function backup(directory) {
       } else {
         resolve(directory)
       }
-      })
+    })
 }
 
 function mkdir(directory) {

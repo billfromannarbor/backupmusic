@@ -17,14 +17,15 @@ testBackupConfig.destinationDirectory = "TestDestinationDirectory"
 testBackupConfig.filter = {}
 testBackupConfig.filter.acceptFiles = [".mp3", ".m4u"]
 
-
-it("okfs.copyFile - Copy a file", function (done) {
-  okfs.copyFile("./mymusic/child1/nothing.txt", "nothing.txt")
+it("okfs.copyFile - Fails by trying to copy an already existing file", function (done) {
+  const sourceDirectory = "./mymusic/child1/nothing.txt"
+  const destinationDirectory = sourceDirectory
+  okfs.copyFile(sourceDirectory, sourceDirectory)
     .then(function (sourceDirectory, destinationDirectory) {
-      done()
+      done(new Error("Should fail to copy an already existing file"))
     })
     .catch(function (err) {
-      done(err)
+      done()
     })
 })
 
