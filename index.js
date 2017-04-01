@@ -68,18 +68,33 @@ function mkdir(directory) {
   })
 }
 
-function copyFile(sourcePath, destinationPath) {
+function copyFile(source, destination) {
   return new Promise(function (resolve, reject) {
-    const writer = fs.createWriteStream(destinationPath)
-    const reader = fs.createReadStream(sourcePath)
-    writer.on('pipe', (src) => {
-      console.error('something is piping into the writer')
-      if (src != reader) {
-        reject(new Error("Source does not equal reader"))
-      }
-    })
-    reader.pipe(writer)
-    resolve(sourcePath, destinationPath)
+    if (sourcePath == destinationPath) {
+      reject(new Error("destinationPath equals sourcePath"))
+    }
+
+    okfs.stat(source)
+      .okfs.stat(destination)
+      .then(function (destination) {
+        const writer = fs.createWriteStream(destinationPath)
+        const reader = fs.createReadStream(sourcePath)
+        if (!reader) {
+          reject(new Error("Source does not exist"))
+        }
+        writer.on('pipe', (src) => {
+          console.error('something is piping into the writer')
+          if (src != reader) {
+            reject(new Error("Source does not equal reader"))
+          }
+        })
+
+        reader.pipe(writer)
+        resolve(sourcePath)
+      })
+      .catch(function (err) {
+        reject(err)
+      })
   })
 }
 
