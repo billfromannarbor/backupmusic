@@ -12,6 +12,7 @@ npm install -g istanbul
 npm install -g js-beautify
 npm install -g jscs
 npm install --save fs-promise
+npm install walk-folder-tree #https://www.npmjs.com/package/walk-folder-tree
 ```
 
 #Cleanup code, Style Check, Test, Cover, and Generate documents
