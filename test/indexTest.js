@@ -17,24 +17,37 @@ testBackupConfig.destinationDirectory = "TestDestinationDirectory"
 testBackupConfig.filter = {}
 testBackupConfig.filter.acceptFiles = [".mp3", ".m4u"]
 
+it("okfs.copyFile - copy a source file to a destination file", function (done) {
+  const source = "./mymusic/child2/nothing.txt"
+  const destination = "./destinationMusic/."
+  okfs.copyFile(source, destination)
+    .then(function (source) {
+      done()
+    })
+    .catch(function (err) {
+      done(err)
+
+    })
+})
+
 it("okfs.copyFile - Fails by trying to copy a source file that doesn't exist", function (done) {
   const source = "./mymusic/child3/nothing.txt"
   const destination = "./destinationMusic/."
   okfs.copyFile(source, destination)
-    .then(function (sourceDirectory) {
-      done(new Error("Should fail to copy an empty directory from " + "sourceDirectory: " + sourceDirectory))
+    .then(function (source) {
+      done(new Error("Should fail to copy an empty directory from " + "sourceDirectory: " + source))
     })
     .catch(function (err) {
       done()
     })
 })
 
-it("okfs.copyFile - Fails to copy an already existing file", function (done) {
+it.skip("okfs.copyFile - Fails to copy an already existing file", function (done) {
   const source = "./mymusic/child1/nothing.txt"
   const destination = "./mymusic/child2/nothing.txt"
   okfs.copyFile(source, destination)
     .then(function (sourceDirectory) {
-      done(new Error("Should fail to copy an already existing file from " + "sourceDirectory: " + sourceDirectory))
+      done(new Error("Should fail to copy an already existing file from " + "source: " + source))
     })
     .catch(function (err) {
       done()

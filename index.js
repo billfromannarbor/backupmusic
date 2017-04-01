@@ -26,12 +26,12 @@ okfs.mkdir = mkdir
 okfs.copyFile = copyFile
 exports.okfs = okfs
 
-function stat(directory) {
+function stat(file) {
   return new Promise(function (resolve, reject) {
-    if (!directory) {
-      reject("Directory undefined")
+    if (!file) {
+      reject("file must be defined")
     }
-    fs.stat(directory, function (err, stats) {
+    fs.stat(file, function (err, stats) {
       if (err) {
         reject(err)
       } else {
@@ -68,36 +68,56 @@ function mkdir(directory) {
   })
 }
 
-function copyFile(source, destination) {
+function copyFile(sourceFile, destinationDirectory) {
   return new Promise(function (resolve, reject) {
-    if (sourcePath == destinationPath) {
-      reject(new Error("destinationPath equals sourcePath"))
+    console.log("Dude 1")
+    if (!sourceFile) {
+      reject(new Error("sourceFile undefined"))
+    }
+    if (!destinationDirectory) {
+      reject(new Error("destinationDirectory undefined"))
     }
 
-    okfs.stat(source)
-      .okfs.stat(destination)
-      .then(function (destination) {
-        const writer = fs.createWriteStream(destinationPath)
-        const reader = fs.createReadStream(sourcePath)
-        if (!reader) {
-          reject(new Error("Source does not exist"))
+    okfs.stat(sourceFile)
+      .then(function sourceFileStats(stats) {
+        if (!stats.isFile()) {
+          reject(new Error("sourceFile: " + sourceFile + " is not a file"))
         }
-        writer.on('pipe', (src) => {
-          console.error('something is piping into the writer')
-          if (src != reader) {
-            reject(new Error("Source does not equal reader"))
-          }
-        })
+        okfs.stat(destinationDirectory)
+          .then(function destinationDirectoryStats(stats) {
+            if (!stats.isDirectory()) {
+              reject(new Error("destinationDirectory: " + sourceFile + " is not a directory"))
+            }
+            const writer = fs.createWriteStream(destinationPath)
+            const reader = fs.createReadStream(sourcePath)
+            if (!reader) {
+              reject(new Error("Source does not exist"))
+            }
+            writer.on('pipe', (src) => {
+              console.error('something is piping into the writer')
+              if (src != reader) {
+                reject(new Error("Source does not equal reader"))
+              }
+            })
 
-        reader.pipe(writer)
-        resolve(sourcePath)
+            reader.pipe(writer)
+            resolve()
+
+          })
+          .catch(function (err) {
+            reject(err)
+          })
+      })
+      .then(function () {
+        console.log("Dude22")
+        resolve()
       })
       .catch(function (err) {
+        console.log("Dude Catch")
         reject(err)
       })
   })
 }
-
 /*
 function main() {
   var sourceDirectory = process.argv[2]
