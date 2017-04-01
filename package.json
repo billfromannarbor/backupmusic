@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/billfromannarbor/backupmusic/issues"
   },
-  "homepage": "https://github.com/billfromannarbor/backupmusic#readme"
+  "homepage": "https://github.com/billfromannarbor/backupmusic#readme",
+  "dependencies": {
+    "fs-promise": "^2.0.2"
+  }
 }

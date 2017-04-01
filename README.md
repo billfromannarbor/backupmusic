@@ -11,6 +11,7 @@ npm install -g jsdoc
 npm install -g istanbul
 npm install -g js-beautify
 npm install -g jscs
+npm install --save fs-promise
 ```
 
 #Cleanup code, Style Check, Test, Cover, and Generate documents
