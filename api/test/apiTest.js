@@ -22,15 +22,22 @@ testBackupConfig.filter.acceptFiles = [".mp3", ".m4u"]
 it("Retrieves the source directory tree", function (done) {
   var expectedTree = {}
   expectedTree.child1 = {}
-  expectedTree.child1.files = []
-  expectedTree.child1.files.push("nothing.txt")
+  expectedTree.child1.grandchild1 = {}
+  expectedTree.child1.grandchild1["nothing.txt"] = "File"
+  expectedTree.child1["nothing.txt"] = "File"
+  expectedTree.child1["nothing.m4u"] = "File"
+  expectedTree.child1["nothing.mp3"] = "File"
   expectedTree.child2 = {}
-  expectedTree.child2.files = []
-  expectedTree.child2.files.push("nothing.txt")
+  expectedTree.child2["nothing.txt"] = "File"
+  expectedTree.child2["nothing.m4u"] = "File"
+  expectedTree.child2["nothing.mp3"] = "File"
+
+  console.log(JSON.stringify(expectedTree))
 
   api.getDirectoryTree({}, testBackupConfig.sourceDirectory)
     .then(function validateTree(directoryTree) {
       console.log(directoryTree)
+      //TODO a deep comparison of the directory tree - look at yoga for this
       done()
     })
     .catch(function directoryTreeError(err) {

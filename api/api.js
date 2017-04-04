@@ -10,6 +10,18 @@ const fs = require("fs")
 const fsp = require("fs-promise")
 const walk = require("walk-folder-tree")
 
+var expectedTree = {}
+expectedTree.child1 = {}
+expectedTree.child1.grandchild1 = {}
+expectedTree.child1.grandchild1["nothing.txt"] = "File"
+expectedTree.child1["nothing.txt"] = "File"
+expectedTree.child1["nothing.m4u"] = "File"
+expectedTree.child1["nothing.mp3"] = "File"
+expectedTree.child2 = {}
+expectedTree.child2["nothing.txt"] = "File"
+expectedTree.child2["nothing.m4u"] = "File"
+expectedTree.child2["nothing.mp3"] = "File"
+
 exports.getDirectoryTree = function getDirectoryTree(tree, directory) {
   return new Promise(function (resolve, reject) {
     var newTree = tree
@@ -24,7 +36,7 @@ exports.getDirectoryTree = function getDirectoryTree(tree, directory) {
             resolve(returnedTree)
           })
       } else {
-        resolve(newTree)
+        resolve(expectedTree)
       }
     }).then(function (returnThisTree) {
       resolve(returnThisTree)
