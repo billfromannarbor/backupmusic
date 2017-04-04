@@ -10,15 +10,24 @@ const fs = require("fs")
 const fsp = require("fs-promise")
 const walk = require("walk-folder-tree")
 
-exports.getDirectoryTree = function getDirectoryTree(directory) {
+exports.getDirectoryTree = function getDirectoryTree(tree, directory) {
   return new Promise(function (resolve, reject) {
-    var tree = {}
-    walk(directory, function (params, callback) {
-      var path = params.path
-      tree[params.path] = "Here"
-      callback()
-    }).then(function () {
-      resolve(tree)
+    var newTree = tree
+    walk(directory, {
+      recurse: false
+    }, function (params, callback) {
+      if (params.directory) {
+        //Add directory to tree
+        newTree[directory] = {}
+        exports.getDirectoryTree(newTree, params.fullPath)
+          .then(function (returnedTree) {
+            resolve(returnedTree)
+          })
+      } else {
+        resolve(newTree)
+      }
+    }).then(function (returnThisTree) {
+      resolve(returnThisTree)
     }).catch(function (err) {
       reject(err)
     })
