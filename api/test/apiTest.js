@@ -13,31 +13,30 @@ const walk = require("walk-folder-tree")
 const api = require("../api.js")
 
 var testBackupConfig = {}
+var expectedTree = {}
+
 testBackupConfig.sourceDirectory = "mymusic"
 testBackupConfig.destinationDirectory = "TestDestinationDirectory"
 testBackupConfig.filter = {}
 testBackupConfig.filter.acceptFiles = [".mp3", ".m4u"]
 
+expectedTree.child1 = {}
+expectedTree.child1.grandchild1 = {}
+expectedTree.child1.grandchild1["nothing.txt"] = "File"
+expectedTree.child1["nothing.txt"] = "File"
+expectedTree.child1["nothing.m4u"] = "File"
+expectedTree.child1["nothing.mp3"] = "File"
+expectedTree.child2 = {}
+expectedTree.child2["nothing.txt"] = "File"
+expectedTree.child2["nothing.m4u"] = "File"
+expectedTree.child2["nothing.mp3"] = "File"
+
 //TODO:  Pull a directory tree of the source and destinationDirectory
 it("Retrieves the source directory tree", function (done) {
-  var expectedTree = {}
-  expectedTree.child1 = {}
-  expectedTree.child1.grandchild1 = {}
-  expectedTree.child1.grandchild1["nothing.txt"] = "File"
-  expectedTree.child1["nothing.txt"] = "File"
-  expectedTree.child1["nothing.m4u"] = "File"
-  expectedTree.child1["nothing.mp3"] = "File"
-  expectedTree.child2 = {}
-  expectedTree.child2["nothing.txt"] = "File"
-  expectedTree.child2["nothing.m4u"] = "File"
-  expectedTree.child2["nothing.mp3"] = "File"
-
-  console.log(JSON.stringify(expectedTree))
-
   api.getDirectoryTree({}, testBackupConfig.sourceDirectory)
     .then(function validateTree(directoryTree) {
-      console.log(directoryTree)
-      //TODO a deep comparison of the directory tree - look at yoga for this
+      assert.deepEqual(directoryTree, expectedTree,
+        "Validate DirectoryTree against expected Tree")
       done()
     })
     .catch(function directoryTreeError(err) {
